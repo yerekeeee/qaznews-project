@@ -1,0 +1,53 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block title %}Главная страница{% endblock %}
+
+{% block content %}
+<section class="primary-news">
+    {% for post in primary_posts %}
+    <div class="container primary-news__row">
+        <div class="primary-news__content">
+            <h1 class="primary-news__title">{{ post.title }}</h1>
+            <h2 class="primary-news__date">{{ post.created_at|date:"d.m.Y" }}</h2>
+            <a href="{% url 'news_detail_page' pk=post.pk %}" class="button is-primary">Читать</a>
+        </div>
+        <img src="{{ post.image.url }}" alt="{{ post.title }}" class="primary-news__image">
+    </div>
+    {% endfor %}
+</section>
+<marquee class="marquee" behavior="scroll" direction="left">
+    <h2 class="marquee-title">Читайте актуальные новости в QazNews! Подписывайтесь на наши соц сети</h2>
+</marquee>
+<section class="last-news">
+    <div class="container">
+        <div class="last-news__header">
+            <h3 class="title">Последние новости</h3>
+            <ul class="last-news__tags">
+                {% for tag in tags %}
+                <li class="last-news-tag__item">
+                    <a href="{% url 'tags_news_page' slug=tag.slug %}" class="last-news-tag__link">{{ tag.name }}</a>
+                </li>
+                {% endfor %}
+                <li class="last-news-tag__item">
+                    <a href="{% url 'all_news_page' %}" class="last-news-tag__link">Всё</a>
+                </li>
+            </ul>
+        </div>
+        <div class="last-news__row">
+            {% for post in last_posts %}
+            <div class="last-news__card">
+                <img src="{{ post.image.url }}" alt="{{ post.title }}" class="last-news__image">
+                <div class="last-news-card__body">
+                    <h3 class="last-news-card__title">{{ post.title|truncatewords:3 }}</h3>
+                    <span class="last-news-card__date">{{ post.created_at|date:"d.m.Y" }}</span>
+                    <a href="{% url 'news_detail_page' pk=post.pk %}" class="button is-primary d-block">Читать</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="centered">
+            <a href="{% url 'all_news_page' %}" class="button is-primary">Все новости</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

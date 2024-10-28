@@ -1,0 +1,21 @@
+{% extends '../base.html' %}
+
+{% block title %}Удалить тег{% endblock %}
+
+{% block content %}
+{% if user.is_superuser %}
+<section class="page-block">
+    <div class="container">
+        <h1 class="title">Удалить тег</h1>
+        <p class="help-text w-600 w-60">Вы подтверждаете удаление тега “{{ tag.name }}”? После удаления данные невозможно будет восстановить</p>
+        <form method="post" class="crud-form">
+            {% csrf_token %}
+            <button class="action delete">Да</button>
+            <a href="{% url 'admin_tags_list' %}" class="action create">Отмена</a>
+        </form>
+    </div>
+</section>
+{% else %}
+{% include './alert.html' %}
+{% endif %}
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block title %}Админ панель{% endblock %}
+
+{% block content %}
+{% if user.is_superuser %}
+<section class="page-block">
+    <div class="container">
+        <h1 class="title mb-10">Админ панель</h1>
+    </div>
+    <div class="container page-block__row login-row">
+        <div class="page-block__item">
+            <a href="{% url 'admin_tags_list' %}" class="dashboard-button">
+                <img src="{% static './images/tags.svg' %}" alt="Tags">
+                <span>Теги</span>
+            </a>
+        </div>
+        <div class="page-block__item">
+            <a href="{% url 'admin_news_list' %}" class="dashboard-button">
+                <img src="{% static './images/news.svg' %}" alt="News">
+                <span>Новости</span>
+            </a>
+        </div>
+    </div>
+</section>
+{% else %}
+{% include './alert.html' %}
+{% endif %}
+{% endblock %}

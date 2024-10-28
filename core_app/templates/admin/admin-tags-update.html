@@ -1,0 +1,20 @@
+{% extends '../base.html' %}
+
+{% block title %}Обновить тег{% endblock %}
+
+{% block content %}
+{% if user.is_superuser %}
+<section class="page-block">
+    <div class="container">
+        <h1 class="title mb-10">Изменить тег</h1>
+        <form class="crud-form" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <button class="action create w-50">Изменить</button>
+        </form>
+    </div>
+</section>
+{% else %}
+{% include './alert.html' %}
+{% endif %}
+{% endblock %}

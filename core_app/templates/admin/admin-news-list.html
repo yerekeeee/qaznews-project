@@ -1,0 +1,39 @@
+{% extends '../base.html' %}
+
+{% block title %}Теги{% endblock %}
+
+{% block content %}
+{% if user.is_superuser %}
+<section class="page-block">
+    <div class="container">
+        <div class="last-news__header">
+            <h1 class="title mb-10">Новости</h1>
+            <a href="{% url 'admin_news_create' %}" class="action create">Добавить</a>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>#</td>
+                    <td>Название поста</td>
+                    <td colspan="2">Действие</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in posts %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ post.title }}</td>
+                    <td>
+                        <a href="{% url 'admin_news_update' pk=post.pk %}" class="action edit">Изменить</a>
+                        <a href="{% url 'admin_news_delete' pk=post.pk %}" class="action delete">Удалить</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% else %}
+{% include './alert.html' %}
+{% endif %}
+{% endblock %}

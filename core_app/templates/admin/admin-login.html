@@ -1,0 +1,23 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block title %}Вход в систему{% endblock %}
+
+{% block content %}
+
+<section class="page-block">
+    <div class="container page-block__row login-row">
+        <div class="page-block__item">
+            <h1 class="title">Вход в систему</h1>
+            <form class="auth-form" method="post">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit" class="auth-button">Вход</button>
+                <p class="help-text">Забыли пароль? Обратитесь в <a href="#">тех. поддержку</a></p>
+            </form>
+        </div>
+        <div class="page-block__item">
+            <img src="{% static './images/login.svg' %}" class="full-width" alt="Login">
+        </div>
+    </div>
+</section>
+{% endblock %}

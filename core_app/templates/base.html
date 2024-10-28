@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static './css/style.css' %}">
+</head>
+<body>
+    <header class="header">
+        <div class="container header-row">
+            <a href="{% url 'home_page' %}" class="logo">QazNews</a>
+            <ul class="header-nav">
+                <li class="header-nav__item">
+                    <a href="{% url 'home_page' %}" class="header-nav__link">Главная</a>
+                </li>
+                <li class="header-nav__item">
+                    <a href="{% url 'all_news_page' %}" class="header-nav__link">Все новости</a>
+                </li>
+                <li class="header-nav__item">
+                    <a href="{% url 'search_page' %}" class="header-nav__link">Найти</a>
+                </li>
+                {% if not user.is_authenticated %}
+                <li class="header-nav__item">
+                    <a href="{% url 'admin_login_page' %}" class="header-nav__link">
+                        <img src="{% static './images/user.svg' %}" alt="User">
+                    </a>
+                </li>
+                {% else %}
+                <li class="header-nav__item">
+                    <a href="{% url 'admin_dashboard_page' %}" class="header-nav__link">Админ панель</a>
+                </li>
+                <li class="header-nav__item">
+                    <a href="{% url 'admin_logout' %}" class="header-nav__link">{{ user.username }} : Выход</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <a href="#" class="footer-logo">QazNews</a>
+            <p class="rules">Все права защищены, 2024</p>
+            <span class="contact">Написать в редакцию: <a href="#" class="phone">+7 777 777 77 77</a></span>
+        </div>
+    </footer>
+</body>
+</html>

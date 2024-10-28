@@ -1,0 +1,84 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block title %}Все новости{% endblock %}
+
+{% block content %}
+<section class="page-block">
+    <div class="container page-block__row">
+        <div class="page-block__item">
+            <h1 class="title">Все новости</h1>
+            <div class="news-list">
+                {% for post in posts %}
+                <div class="news-card">
+                    <img src="{{ post.image.url }}" alt="{{ post.title }}" class="news-card__image">
+                    <div class="news-card__content">
+                        <h3 class="news-card__title">{{ post.title }}</h3>
+                        <span class="news-card__date">{{ post.created_at|date:"d.m.Y" }}</span>
+                        <a href="{% url 'tags_news_page' slug=post.tag.slug %}" class="news-card__tag">{{ post.tag.name }}</a>
+                        <a href="{% url 'news_detail_page' pk=post.pk %}" class="news-card__link">Читать</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="pagination">
+                <ul class="pagination-nav">
+                    {% if posts.has_previous %}
+                    <li class="pagination-nav__item">
+                        <a href="?page={{ posts.previous_page_number }}" class="pagination-nav__link">
+                            <img src="{% static './images/pagination/dark-left.svg' %}" alt="Left">
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="pagination-nav__item">
+                        <a href="#" class="pagination-nav__link active">
+                            <img src="{% static './images/pagination/left-white.svg' %}" alt="Left">
+                        </a>
+                    </li>
+                    {% endif %}
+                    
+                    {% for i in posts.paginator.page_range %}
+                    <li class="pagination-nav__item">
+                        {% if posts.number == i %}
+                        <a href="#" class="pagination-nav__link active">
+                            {{ i }}
+                        </a>
+                        {% else %}
+                        <a href="?page={{ i }}" class="pagination-nav__link">
+                            {{ i }}
+                        </a>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+
+
+                    {% if posts.has_next %}
+                    <li class="pagination-nav__item">
+                        <a href="?page={{ posts.next_page_number }}" class="pagination-nav__link">
+                            <img src="{% static './images/pagination/right-dark.svg' %}" alt="Right">
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="pagination-nav__item">
+                        <a href="#" class="pagination-nav__link active">
+                            <img src="{% static './images/pagination/light-right.svg' %}" alt="Right">
+                        </a>
+                    </li>
+                    {% endif %}
+
+
+                </ul>
+            </div>
+        </div>
+        <div class="page-block__item">
+            <h2 class="title">Теги</h2>
+            <ul class="tags-nav">
+                {% for tag in tags %}
+                <li class="tags-nav__item">
+                    <a href="{% url 'tags_news_page' slug=tag.slug %}" class="tags-nav__link">{{ tag.name }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</section>
+{% endblock %}
